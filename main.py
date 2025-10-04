@@ -1,23 +1,30 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
+import calculator
+import budgettracker
 
-st.title("Simple Calculator")
+st.set_page_config(page_title="SpendWise Tools", page_icon="💼", layout="centered")
 
-# Input numbers
-num1 = st.number_input("Enter first number", value=0.0)
-num2 = st.number_input("Enter second number", value=0.0)
+# ---- TOP NAVBAR ----
+selected = option_menu(
+    menu_title=None,
+    options=["Home", "Calculator", "Budget Tracker"],
+    icons=["house", "calculator", "wallet2"],
+    orientation="horizontal",
+    default_index=0,
+)
 
-# Operation
-operation = st.selectbox("Select operation", ["Add", "Subtract", "Multiply", "Divide"])
-
-# Compute
-if st.button("Calculate"):
-    if operation == "Add":
-        result = num1 + num2
-    elif operation == "Subtract":
-        result = num1 - num2
-    elif operation == "Multiply":
-        result = num1 * num2
-    elif operation == "Divide":
-        result = "Error: Division by zero" if num2 == 0 else num1 / num2
-
-    st.success(f"Result: {result}")
+# ---- PAGE ROUTING ----
+if selected == "Home":
+    st.title("💼 SpendWise Tools")
+    st.write("""
+    Welcome to **SpendWise**, a simple multi-tool app built with Streamlit.  
+    Use the top menu to switch between tools:
+    - 🧮 Calculator  
+    - 💰 Budget Tracker
+    """)
+    st.info("Select a feature from the top bar to start!")
+elif selected == "Calculator":
+    calculator.run()
+elif selected == "Budget Tracker":
+    budgettracker.run()
